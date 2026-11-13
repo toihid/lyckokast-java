@@ -11,14 +11,16 @@ public class DiceGame {
 
         System.out.println("Welcome to Lyckokast!");
 
-        System.out.print("Enter your name: \n");
+        // Ask for the player's name
+        System.out.print("Enter your name: ");
         String name = scanner.nextLine();
 
-        // Validate number of rounds
+        // Ask how many rounds the player wants to play
         int rounds = 0;
 
         while (rounds <= 0) {
-            System.out.print("How many rounds do you want to play? \n");
+
+            System.out.print("How many rounds do you want to play? ");
 
             if (scanner.hasNextInt()) {
                 rounds = scanner.nextInt();
@@ -33,11 +35,12 @@ public class DiceGame {
             }
         }
 
-        // Validate number of dice sides
+        // Ask how many sides the die should have
         int sides = 0;
 
         while (sides < 2) {
-            System.out.print("How many sides should the die have? \n");
+
+            System.out.print("How many sides should the die have? ");
 
             if (scanner.hasNextInt()) {
                 sides = scanner.nextInt();
@@ -52,20 +55,23 @@ public class DiceGame {
             }
         }
 
+        // Create the player and give them one die
         Player player = new Player(name);
         player.addDie(sides);
 
+        // Play the selected number of rounds
         int round = 1;
 
         while (round <= rounds) {
 
-            System.out.println("Round " + round);
+            System.out.println("\nRound " + round);
 
-            // Validate player's guess
+            // Ask the player to guess the dice value
             int guess = 0;
 
             while (guess < 1 || guess > sides) {
-                System.out.print("Guess the dice value: \n");
+
+                System.out.print("Guess the dice value: ");
 
                 if (scanner.hasNextInt()) {
                     guess = scanner.nextInt();
@@ -82,12 +88,14 @@ public class DiceGame {
                 }
             }
 
+            // Roll the die and get the result
             player.rollDice();
 
-            int result = player.getDieValue();
+            int result = player.getDiceTotal();
 
             System.out.println("The dice rolled: " + result);
 
+            // Check if the player's guess was correct
             if (guess == result) {
                 System.out.println("You guessed correctly!");
                 player.increaseScore();
@@ -95,12 +103,14 @@ public class DiceGame {
                 System.out.println("Wrong guess!");
             }
 
+            // Show the current score
             System.out.println("Your score: " + player.getScore());
 
             round++;
         }
 
-        System.out.println("Game over!");
+        // Show the final result
+        System.out.println("\nGame over!");
         System.out.println("Final score: " + player.getScore());
 
         scanner.close();
