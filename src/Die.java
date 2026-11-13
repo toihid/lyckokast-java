@@ -7,6 +7,9 @@ public class Die {
     private Random random;
  
     public Die(int sides) {
+        if(sides< 1) {
+            throw new IllegalArgumentException("Die must have at least 1 side.");
+        }
         this.sides = sides;
         random = new Random();
     }
