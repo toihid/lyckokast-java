@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyckokast - Projektpresentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideIn 0.5s ease-out;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #764ba2;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin: 25px 0 15px 0;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.3em;
+            margin-bottom: 40px;
+        }
+
+        ul {
+            font-size: 1.3em;
+            line-height: 2;
+            margin-left: 40px;
+            color: #333;
+        }
+
+        .emoji {
+            font-size: 1.5em;
+        }
+
+        .class-diagram {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .class-box {
+            border: 2px solid #667eea;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            background: white;
+            display: inline-block;
+            min-width: 200px;
+        }
+
+        .class-box-title {
+            font-weight: bold;
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .keyword {
+            color: #ff79c6;
+        }
+
+        .string {
+            color: #f1fa8c;
+        }
+
+        .comment {
+            color: #6272a4;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            color: white;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .nav-button {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: white;
+            color: #667eea;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .challenge-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .challenge-item h4 {
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+
+        .diagram-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .flow-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            font-weight: bold;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: #667eea;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Bild 1: Titel -->
+        <div class="slide active">
+            <h1>🎲 Lyckokast</h1>
+            <p class="subtitle">Ett Java-tärningsspel</p>
+            <p class="subtitle">Programmering i Testning - Projekt 1</p>
+            <div style="text-align: center; margin-top: 60px;">
+                <div class="feature-card" style="max-width: 600px; margin: 0 auto;">
+                    <h3>Vad är Lyckokast?</h3>
+                    <p style="font-size: 1.2em;">Ett roligt tärningsspel där spelare testar sin tur genom att gissa eller tävla med vänner!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bild 2: Spellägen -->
+        <div class="slide">
+            <h2>Spellägen</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🎯 Enspelarläge</h3>
+                    <p>Testa dina psykiska förmågor!</p>
+                    <ul style="margin-left: 20px; margin-top: 15px; color: white;">
+                        <li>Förutsäg tärningskastet</li>
+                        <li>Anpassningsbar tärning (2-100 sidor)</li>
+                        <li>Konfigurerbart antal rundor</li>
+                        <li>Poäng för korrekta gissningar</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>👥 Flerspelarläge</h3>
+                    <p>Tävla med vänner!</p>
+                    <ul style="margin-left: 20px; margin-top: 15px; color: white;">
+                        <li>2-10 spelare</li>
+                        <li>Flera tärningar per spelare</li>
+                        <li>Högsta totalen vinner</li>
+                        <li>Stöd för oavgjort</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bild 3: Funktioner -->
+        <div class="slide">
+            <h2>Nyckelfunktioner</h2>
+            <div class="two-column">
+                <div>
+                    <h3>✅ Användarupplevelse</h3>
+                    <ul>
+                        <li>Rent kommandoradsgränssnitt</li>
+                        <li>Lättföljda instruktioner</li>
+                        <li>Omedelbar feedback</li>
+                        <li>Interaktivt spelande</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>🛡️ Robust design</h3>
+                    <ul>
+                        <li>Indatavalidering</li>
+                        <li>Felhantering</li>
+                        <li>Flexibel konfiguration</li>
+                        <li>Hantering av kantfall</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bild 4: Arkitekturöversikt -->
+        <div class="slide">
+            <h2>Systemarkitektur</h2>
+            <div class="diagram-container">
+                <div class="flow-diagram">
+                    <div class="flow-box">DiceGame<br/>(Huvudingång)</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">Menyval</div>
+                    <span class="flow-arrow">→</span>
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <div class="flow-box">Enspelarläge</div>
+                        <div class="flow-box">Flerspelarläge</div>
+                    </div>
+                </div>
+            </div>
+            <h3 style="margin-top: 40px;">Fyra huvudklasser</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Die</h3>
+                    <p>Representerar en enskild tärning med anpassningsbara sidor</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Player</h3>
+                    <p>Hanterar spelardata, tärningar och poängsättning</p>
+                </div>
+                <div class="feature-card">
+                    <h3>DiceGame</h3>
+                    <p>Huvudingång och enspelarlogik</p>
+                </div>
+                <div class="feature-card">
+                    <h3>MultiplayerDiceGame</h3>
+                    <p>Implementation av flerspelarläge</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bild 5: Klassdiagram -->
+        <div class="slide">
+            <h2>Klassrelationer</h2>
+            <div class="class-diagram">
+                <pre style="font-size: 0.9em; line-height: 1.6;">
+    ┌─────────────────────┐
+    │   <span style="color: #667eea; font-weight: bold;">DiceGame</span>        │
+    │   (Huvudingång)     │
+    │   - main()          │
+    └──────────┬──────────┘
+               │
+        ┌──────┴──────┐
+        │             │
+    ┌───▼──────┐  ┌──▼────────────────┐
+    │ DiceGame │  │ MultiplayerDiceGame│
+    │          │  │                    │
+    │ - play() │  │ - play()          │
+    └──────────┘  │ - initialize()    │
+                  │ - takeTurn()      │
+                  │ - getWinners()    │
+                  └────────┬───────────┘
+                           │ använder
+                    ┌──────▼────────┐
+                    │   <span style="color: #667eea; font-weight: bold;">Player</span>      │
+                    │ - name        │
+                    │ - score       │
+                    │ - dice[]      │
+                    │ + rollDice()  │
+                    └──────┬────────┘
+                           │ har
+                    ┌──────▼────────┐
+                    │    <span style="color: #667eea; font-weight: bold;">Die</span>       │
+                    │ - value       │
+                    │ - sides       │
+                    │ + roll()      │
+                    └───────────────┘
+                </pre>
+            </div>
+        </div>
+
+        <!-- Bild 6: Die-klassen -->
+        <div class="slide">
+            <h2>Die.java - Implementation</h2>
+            <h3>Syfte</h3>
+            <p style="font-size: 1.2em; margin: 15px 0;">Representerar en enskild tärning med konfigurerbart antal sidor</p>
+            
+            <h3>Viktiga metoder</h3>
+            <div class="code-block">
+<span class="keyword">public class</span> Die {
+    <span class="keyword">private int</span> value;
+    <span class="keyword">private int</span> sides;
+    <span class="keyword">private</span> Random random;
+
+    <span class="comment">// Kasta tärningen</span>
+    <span class="keyword">public void</span> roll() {
+        value = random.nextInt(sides) + <span class="string">1</span>;
+    }
+
+    <span class="comment">// Hämta aktuellt värde</span>
+    <span class="keyword">public int</span> getValue() {
+        <span class="keyword">return</span> value;
+    }
+}
+            </div>
+            <div class="challenge-item">
+                <h4>Designbeslut</h4>
+                <p>Använder Javas Random-klass för att generera värden mellan 1 och antal sidor. Validerar minimum 1 sida i konstruktorn.</p>
+            </div>
+        </div>
+
+        <!-- Bild 7: Player-klassen -->
+        <div class="slide">
+            <h2>Player.java - Implementation</h2>
+            <h3>Syfte</h3>
+            <p style="font-size: 1.2em; margin: 15px 0;">Hanterar spelarinformation och tärningssamling</p>
+            
+            <div class="code-block">
+<span class="keyword">public class</span> Player {
+    <span class="keyword">private</span> String name;
+    <span class="keyword">private int</span> score;
+    <span class="keyword">private</span> ArrayList&lt;Die&gt; dice;
+
+    <span class="comment">// Kasta alla spelarens tärningar</span>
+    <span class="keyword">public void</span> rollDice() {
+        <span class="keyword">for</span> (Die die : dice) {
+            die.roll();
+        }
+    }
+
+    <span class="comment">// Beräkna totalen av alla tärningar</span>
+    <span class="keyword">public int</span> getDiceTotal() {
+        <span class="keyword">int</span> total = <span class="string">0</span>;
+        <span class="keyword">for</span> (Die die : dice) {
+            total += die.getValue();
+        }
+        <span class="keyword">return</span> total;
+    }
+}
+            </div>
+        </div>
+
+        <!-- Bild 8: Indatavalidering -->
+        <div class="slide">
+            <h2>Strategi för indatavalidering</h2>
+            <h3>Utmaningen</h3>
+            <p style="font-size: 1.2em; margin: 15px 0;">Användare kan mata in vad som helst - bokstäver, symboler, siffror utanför intervallet eller ingenting alls!</p>
+            
+            <div class="code-block">
+<span class="keyword">private static int</span> getValidInt(
+        Scanner scanner, String message, 
+        <span class="keyword">int</span> min, <span class="keyword">int</span> max) {
+    
+    <span class="keyword">while</span> (<span class="string">true</span>) {
+        System.out.print(message);
+        String input = scanner.nextLine().trim();
+        
+        <span class="keyword">try</span> {
+            <span class="keyword">int</span> number = Integer.parseInt(input);
+            
+            <span class="keyword">if</span> (number >= min && number <= max) {
+                <span class="keyword">return</span> number;
+            }
+            System.out.println(<span class="string">"Ange ett nummer mellan "</span> 
+                             + min + <span class="string">" och "</span> + max);
+                             
+        } <span class="keyword">catch</span> (NumberFormatException e) {
+            System.out.println(<span class="string">"Vänligen ange ett heltal."</span>);
+        }
+    }
+}
+            </div>
+        </div>
+
+        <!-- Bild 9: Vinnardetektion -->
+        <div class="slide">
+            <h2>Algoritm för vinnardetektion</h2>
+            <h3>Stöd för flera vinnare (oavgjort)</h3>
+            <div class="flow-diagram" style="flex-direction: column;">
+                <div class="flow-box">Hitta högsta poängen</div>
+                <span class="flow-arrow" style="transform: rotate(90deg);">→</span>
+                <div class="flow-box">Samla alla spelare med den poängen</div>
+                <span class="flow-arrow" style="transform: rotate(90deg);">→</span>
+                <div class="flow-box">Returnera vinnarlista</div>
+            </div>
+            
+            <div class="code-block">
+<span class="comment">// Hitta högsta poängen</span>
+<span class="keyword">int</span> highestScore = players.get(<span class="string">0</span>).getScore();
+<span class="keyword">for</span> (Player player : players) {
+    <span class="keyword">if</span> (player.getScore() > highestScore) {
+        highestScore = player.getScore();
+    }
+}
+
+<span class="comment">// Samla alla spelare med högsta poängen</span>
+<span class="keyword">for</span> (Player player : players) {
+    <span class="keyword">if</span> (player.getScore() == highestScore) {
+        winners.add(player);
+    }
+}
+            </div>
+        </div>
+
+        <!-- Bild 10: Testning -->
+        <div class="slide">
+            <h2>Teststrategi</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Indatavalideringstester</h3>
+                    <ul>
+                        <li>Icke-numerisk indata</li>
+                        <li>Siffror utanför intervallet</li>
+                        <li>Tomma strängar</li>
+                        <li>Gränsvärden</li>
+                        <li>Negativa tal</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Spellogiktester</h3>
+                    <ul>
+                        <li>Poängberäkning</li>
+                        <li>Vinnardetektion</li>
+                        <li>Oavgjort-scenarion</li>
+                        <li>Tärningarnas slumpmässighet</li>
+                        <li>Rundprogression</li>
+                    </ul>
+                </div>
+            </div>
+            <h3 style="margin-top: 30px;">Testade kantfall</h3>
+            <table>
+                <tr>
+                    <th>Kategori</th>
+                    <th>Minvärde</th>
+                    <th>Maxvärde</th>
+                </tr>
+                <tr>
+                    <td>Rundor</td>
+                    <td>1</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>Spelare</td>
+                    <td>2</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Tärningar per spelare</td>
+                    <td>1</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Tärningssidor</td>
+                    <td>2</td>
+                    <td>100</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Bild 11: Utmaningar -->
+        <div class="slide">
+            <h2>Utmaningar vi övervann</h2>
+            <div class="challenge-item">
+                <h4>🔴 Utmaning 1: Indatavalidering</h4>
+                <p><strong>Problem:</strong> Spelet kraschade när användare angav icke-numeriska värden</p>
+                <p><strong>Lösning:</strong> Implementerade try-catch-block med NumberFormatException och skapade återanvändbara valideringsmetoder</p>
+            </div>
+            <div class="challenge-item">
+                <h4>🔴 Utmaning 2: Flera vinnare</h4>
+                <p><strong>Problem:</strong> Tänkte initialt bara på en vinnare</p>
+                <p><strong>Lösning:</strong> Omdesignade vinnarlogiken för att först hitta högsta poängen, sedan samla alla spelare med den poängen</p>
+            </div>
+            <div class="challenge-item">
+                <h4>🔴 Utmaning 3: Scanner-hantering</h4>
+                <p><strong>Problem:</strong> Scanner stängdes oväntat eller ingen indata fanns tillgänglig</p>
+                <p><strong>Lösning:</strong> Lade till hasNextLine()-kontroller och korrekt undantagshantering</p>
+            </div>
+            <div class="challenge-item">
+                <h4>🔴 Utmaning 4: Kodduplicering</h4>
+                <p><strong>Problem:</strong> Liknande valideringslogik behövdes i båda spellägena</p>
+                <p><strong>Lösning:</strong> Skapade återanvändbara statiska metoder för delad funktionalitet</p>
+            </div>
+        </div>
+
+        <!-- Bild 12: Vad vi lärde oss -->
+        <div class="slide">
+            <h2>Vad vi lärde oss</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>💻 Tekniska färdigheter</h3>
+                    <ul style="margin-left: 20px; color: white;">
+                        <li>Objektorienterad programmering</li>
+                        <li>ArrayList-hantering</li>
+                        <li>Undantagshantering</li>
+                        <li>Indatavalidering</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>🛠️ Utvecklingspraxis</h3>
+                    <ul style="margin-left: 20px; color: white;">
+                        <li>Kodorganisation</li>
+                        <li>Metoddesign</li>
+                        <li>Refaktorering</li>
+                        <li>Teststrategier</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>🧠 Problemlösning</h3>
+                    <ul style="margin-left: 20px; color: white;">
+                        <li>Bryta ner problem</li>
+                        <li>Tänka på kantfall</li>
+                        <li>Felsökningstekniker</li>
+                        <li>Hitta eleganta lösningar</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>👥 Samarbete</h3>
+                    <ul style="margin-left: 20px; color: white;">
+                        <li>Dela upp arbete</li>
+                        <li>Kodintegration</li>
+                        <li>Kommunikation</li>
+                        <li>Kodgranskning</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bild 13: Demotid -->
+        <div class="slide">
+            <h2>🎮 Livedemonstrationer</h2>
+            <div style="text-align: center; margin: 50px 0;">
+                <h3 style="font-size: 2.5em; color: #667eea;">Låt oss spela!</h3>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Demo 1: Enspelarläge</h3>
+                    <p>Se när vi försöker förutsäga tärningskast och testar vår tur!</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Demo 2: Flerspelarläge</h3>
+                    <p>Se flera spelare tävla om högsta poängen!</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Demo 3: Indatavalidering</h3>
+                    <p>Observera hur spelet hanterar ogiltiga indata smidigt!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bild 14: Framtida förbättringar -->
+        <div class="slide">
+            <h2>Framtida förbättringar</h2>
+            <div class="two-column">
+                <div>
+                    <h3>🎨 Användargränssnitt</h3>
+                    <ul>
+                        <li>Grafiskt gränssnitt (JavaFX/Swing)</li>
+                        <li>Animerade tärningskast</li>
+                        <li>Ljudeffekter</li>
+                        <li>Temaanpassning</li>
+                    </ul>
+                    <h3 style="margin-top: 30px;">🎮 Spel</h3>
+                    <ul>
+                        <li>Fler spellägen</li>
+                        <li>Speciella tärningstyper</li>
+                        <li>Turneringsläge</li>
+                        <li>Prestationssystem</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>💾 Funktioner</h3>
+                    <ul>
+                        <li>Spara/ladda speltillstånd</li>
+                        <li>Topplistesystem</li>
+                        <li>Statistikspårning</li>
+                        <li>Spelarprofiler</li>
+                    </ul>
+                    <h3 style="margin-top: 30px;">🧪 Kvalitet</h3>
+                    <ul>
+                        <li>Enhetstester (JUnit)</li>
+                        <li>Integrationstester</li>
+                        <li>Kodtäckning</li>
+                        <li>Prestandaoptimering</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bild 15: Avslutning -->
+        <div class="slide">
+            <h2>Slutsats</h2>
+            <div style="text-align: center; margin: 40px 0;">
+                <h3 style="font-size: 2em; color: #667eea;">Viktiga lärdomar</h3>
+            </div>
+            <div class="challenge-item">
+                <h4>✅ Planering är viktig</h4>
+                <p>Bra klassdesign och arkitektur gör implementeringen mycket enklare</p>
+            </div>
+            <div class="challenge-item">
+                <h4>✅ Validering är avgörande</h4>
+                <p>Användare kommer alltid att ange oväntat indata - hantera det elegant</p>
+            </div>
+            <div class="challenge-item">
+                <h4>✅ Testning hittar buggar</h4>
+                <p>Kantfall och gränsvärdestest avslöjar dolda problem tidigt</p>
+            </div>
+            <div class="challenge-item">
+                <h4>✅ Enkelhet fungerar</h4>
+                <p>Ren, enkel kod är lättare att förstå, underhålla och utöka</p>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <h3 style="font-size: 2.5em; color: #764ba2;">Tack så mycket! 🎲</h3>
+                <p style="font-size: 1.3em; margin-top: 20px; color: #666;">Frågor?</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">15</span>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-button" id="prev-btn" onclick="previousSlide()">← Föregående</button>
+        <button class="nav-button" id="next-btn" onclick="nextSlide()">Nästa →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Uppdatera knappstatus
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Tangentbordsnavigering
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousSlide();
+            }
+        });
+
+        // Initialisera
+        showSlide(0);
+    </script>
+</body>
+</html>
