@@ -336,6 +336,16 @@
                         <li>Supports ties</li>
                     </ul>
                 </div>
+                <div class="feature-card">
+                    <h3>🐷 Pig Game</h3>
+                    <p>Risk vs Reward!</p>
+                    <ul style="margin-left: 20px; margin-top: 15px; color: white;">
+                        <li>Race to 100 points</li>
+                        <li>Keep rolling or stop and save</li>
+                        <li>Roll a 1 = lose turn points</li>
+                        <li>Classic dice game strategy</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -379,7 +389,7 @@
                     </div>
                 </div>
             </div>
-            <h3 style="margin-top: 40px;">Four Main Classes</h3>
+            <h3 style="margin-top: 40px;">Five Main Classes</h3>
             <div class="feature-grid">
                 <div class="feature-card">
                     <h3>Die</h3>
@@ -396,6 +406,10 @@
                 <div class="feature-card">
                     <h3>MultiplayerDiceGame</h3>
                     <p>Multiplayer game implementation</p>
+                </div>
+                <div class="feature-card">
+                    <h3>PigGame</h3>
+                    <p>Risk-based racing game to 100 points</p>
                 </div>
             </div>
         </div>
@@ -686,7 +700,44 @@
             </div>
         </div>
 
-        <!-- Slide 13: Demo Time -->
+        <!-- Slide 13: PigGame Implementation -->
+        <div class="slide">
+            <h2>PigGame - Extra Challenge 2</h2>
+            <h3>Classic Risk vs Reward Game</h3>
+            <div class="flow-diagram" style="flex-direction: column;">
+                <div class="flow-box">Roll Die & Add to Turn Points</div>
+                <span class="flow-arrow" style="transform: rotate(90deg);">→</span>
+                <div class="flow-box">Decision: Stop or Continue?</div>
+                <span class="flow-arrow" style="transform: rotate(90deg);">→</span>
+                <div style="display: flex; gap: 20px;">
+                    <div class="flow-box" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">Stop → Save Points</div>
+                    <div class="flow-box" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);">Roll 1 → Lose All!</div>
+                </div>
+            </div>
+            
+            <div class="two-column" style="margin-top: 30px;">
+                <div class="challenge-item">
+                    <h4>Game Rules</h4>
+                    <ul>
+                        <li>First to 100 points wins</li>
+                        <li>Roll die, add to temporary pot</li>
+                        <li>Stop anytime to save points</li>
+                        <li>Roll 1 = lose turn points</li>
+                    </ul>
+                </div>
+                <div class="challenge-item">
+                    <h4>Implementation Features</h4>
+                    <ul>
+                        <li>Simple, student-friendly code</li>
+                        <li>Reuses Player and Die classes</li>
+                        <li>Clear turn-based logic</li>
+                        <li>Quit option added</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Demo Time -->
         <div class="slide">
             <h2>🎮 Live Demonstration</h2>
             <div style="text-align: center; margin: 50px 0;">
@@ -702,7 +753,11 @@
                     <p>See multiple players compete for the highest score!</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Demo 3: Input Validation</h3>
+                    <h3>Demo 3: Pig Game</h3>
+                    <p>Experience the thrill of risk vs reward - when to stop or keep rolling!</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Demo 4: Input Validation</h3>
                     <p>Observe how the game handles invalid inputs gracefully!</p>
                 </div>
             </div>
@@ -777,7 +832,7 @@
     </div>
 
     <div class="slide-counter">
-        <span id="current-slide">1</span> / <span id="total-slides">15</span>
+        <span id="current-slide">1</span> / <span id="total-slides">16</span>
     </div>
 
     <div class="navigation">

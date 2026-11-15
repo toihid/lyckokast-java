@@ -336,6 +336,16 @@
                         <li>Stöd för oavgjort</li>
                     </ul>
                 </div>
+                <div class="feature-card">
+                    <h3>🐷 Pig-spelet</h3>
+                    <p>Risk mot belöning!</p>
+                    <ul style="margin-left: 20px; margin-top: 15px; color: white;">
+                        <li>Kappløp til 100 poäng</li>
+                        <li>Fortsätt rulla eller stanna och spara</li>
+                        <li>Rulla en 1 = förlora turpoäng</li>
+                        <li>Klassiskt tärningsspel strategi</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -379,7 +389,7 @@
                     </div>
                 </div>
             </div>
-            <h3 style="margin-top: 40px;">Fyra huvudklasser</h3>
+            <h3 style="margin-top: 40px;">Fem huvudklasser</h3>
             <div class="feature-grid">
                 <div class="feature-card">
                     <h3>Die</h3>
@@ -396,6 +406,10 @@
                 <div class="feature-card">
                     <h3>MultiplayerDiceGame</h3>
                     <p>Implementation av flerspelarläge</p>
+                </div>
+                <div class="feature-card">
+                    <h3>PigGame</h3>
+                    <p>Riskbaserat kappløpsspel till 100 poäng</p>
                 </div>
             </div>
         </div>
@@ -686,7 +700,44 @@
             </div>
         </div>
 
-        <!-- Bild 13: Demotid -->
+        <!-- Bild 13: PigGame Implementation -->
+        <div class="slide">
+            <h2>PigGame - Extra utmaning 2</h2>
+            <h3>Klassiskt risk mot belöning-spel</h3>
+            <div class="flow-diagram" style="flex-direction: column;">
+                <div class="flow-box">Kasta tärning & lägg till turpoäng</div>
+                <span class="flow-arrow" style="transform: rotate(90deg);">→</span>
+                <div class="flow-box">Beslut: Stanna eller fortsätta?</div>
+                <span class="flow-arrow" style="transform: rotate(90deg);">→</span>
+                <div style="display: flex; gap: 20px;">
+                    <div class="flow-box" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">Stanna → Spara poäng</div>
+                    <div class="flow-box" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);">Kasta 1 → Förlora allt!</div>
+                </div>
+            </div>
+            
+            <div class="two-column" style="margin-top: 30px;">
+                <div class="challenge-item">
+                    <h4>Spelregler</h4>
+                    <ul>
+                        <li>Första till 100 poäng vinner</li>
+                        <li>Kasta tärning, lägg till temporär pott</li>
+                        <li>Stanna när som helst för att spara poäng</li>
+                        <li>Kasta 1 = förlora turpoäng</li>
+                    </ul>
+                </div>
+                <div class="challenge-item">
+                    <h4>Implementeringsfunktioner</h4>
+                    <ul>
+                        <li>Enkel, studentvänlig kod</li>
+                        <li>Återanvänder Player och Die klasser</li>
+                        <li>Tydlig turbaserad logik</li>
+                        <li>Avslutningsalternativ tillagt</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bild 14: Demotid -->
         <div class="slide">
             <h2>🎮 Livedemonstrationer</h2>
             <div style="text-align: center; margin: 50px 0;">
@@ -702,7 +753,11 @@
                     <p>Se flera spelare tävla om högsta poängen!</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Demo 3: Indatavalidering</h3>
+                    <h3>Demo 3: Pig-spelet</h3>
+                    <p>Upplev spänningen av risk mot belöning - när ska man stanna eller fortsätta kasta!</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Demo 4: Indatavalidering</h3>
                     <p>Observera hur spelet hanterar ogiltiga indata smidigt!</p>
                 </div>
             </div>
@@ -777,7 +832,7 @@
     </div>
 
     <div class="slide-counter">
-        <span id="current-slide">1</span> / <span id="total-slides">15</span>
+        <span id="current-slide">1</span> / <span id="total-slides">16</span>
     </div>
 
     <div class="navigation">
