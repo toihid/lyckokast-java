@@ -13,9 +13,10 @@ A simple dice game I made for my Java class. Players can guess what the die will
 
 ## What it does
 
-There are two ways to play:
+There are three ways to play:
 - **Single Player** - Try to guess what the die will roll before it happens
 - **Multiplayer** - Roll dice with friends and see who gets the highest total
+- **Pig Game** - Risk vs reward! Keep rolling to build points, but roll a 1 and lose everything
 
 ## How to run it
 
@@ -34,6 +35,7 @@ java src.DiceGame
 
 - `DiceGame.java` - Has the main method and runs the single player game
 - `MultiplayerDiceGame.java` - Handles the multiplayer game
+- `PigGame.java` - The classic Pig dice game
 - `Player.java` - Keeps track of each player's name, score, and dice
 - `Die.java` - Makes a die that can roll random numbers
 
@@ -44,6 +46,10 @@ You pick how many rounds you want and how many sides the die should have. Then y
 ## Multiplayer
 
 Up to 10 people can play. Everyone gets the same number of dice and rolls them each round. Whoever has the most points at the end wins. If there's a tie, everyone with the top score wins together.
+
+## Pig Game
+
+This is a classic dice game where you race to 100 points. On your turn, you keep rolling a die and adding to your temporary points. You can stop anytime to save your points, or keep rolling to get more. But if you roll a 1, you lose all your temporary points for that turn! It's all about knowing when to stop.
 
 ## Examples
 
@@ -147,6 +153,61 @@ Winner(s):
 Charlie with 18 points!
 ```
 
+### Pig Game Example
+
+```
+Welcome to Lyckokast!
+
+1. Single Player
+2. Multiplayer
+3. Pig Game
+4. Exit
+
+Choose an option (1-4): 3
+
+Welcome to Pig Game!
+First player to reach 100 points wins!
+Roll a 1 and you lose your turn points!
+
+How many players? (2-10): 2
+Enter name for player 1: Alice
+Enter name for player 2: Bob
+
+--- Alice's turn ---
+Total score: 0
+
+Roll the die? (Enter = roll, 's' = stop): 
+You rolled: 4
+Turn points so far: 4
+
+Roll the die? (Enter = roll, 's' = stop): 
+You rolled: 6
+Turn points so far: 10
+
+Roll the die? (Enter = roll, 's' = stop): s
+Alice stops with 10 turn points.
+Alice earned 10 points this turn!
+New total: 10
+
+--- Bob's turn ---
+Total score: 0
+
+Roll the die? (Enter = roll, 's' = stop): 
+You rolled: 5
+Turn points so far: 5
+
+Roll the die? (Enter = roll, 's' = stop): 
+You rolled: 1
+Oh no! You rolled a 1!
+You lose all 5 turn points!
+
+--- Alice's turn ---
+Total score: 10
+...
+
+🎉 Alice wins with 102 points!
+```
+
 ### Exit Example
 
 ```
@@ -154,9 +215,10 @@ Welcome to Lyckokast!
 
 1. Single Player
 2. Multiplayer
-3. Exit
+3. Pig Game
+4. Exit
 
-Choose an option (1-3): 3
+Choose an option (1-4): 4
 Goodbye!
 ```
 
