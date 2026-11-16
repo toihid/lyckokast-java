@@ -8,63 +8,76 @@ public class PigGame {
 
     public static void play(Scanner scanner) {
 
-        System.out.println("\nWelcome to Pig Game!");
-        System.out.println("First player to reach 100 points wins!");
-        System.out.println("Roll a 1 and you lose your turn points!\n");
+        try {
 
-        // Ask how many players and create them
-        ArrayList<Player> players = new ArrayList<>();
+            System.out.println("\nWelcome to Pig Game!");
+            System.out.println("First player to reach 100 points wins!");
+            System.out.println("Roll a 1 and you lose your turn points!\n");
 
-        int numberOfPlayers = getValidInt(
-                scanner, "How many players? (2-10): ", 2, 10);
+            // Ask how many players and create them
+            ArrayList<Player> players = new ArrayList<>();
 
-        // Create each player and give them a six-sided die
-        for (int i = 0; i < numberOfPlayers; i++) {
+            int numberOfPlayers = getValidInt(
+                    scanner, "How many players? (2-10): ", 2, 10);
 
-            String name = getValidName(
-                    scanner, "Enter name for player " + (i + 1) + ": ");
+            // Create each player and give them a six-sided die
+            for (int i = 0; i < numberOfPlayers; i++) {
 
-            Player player = new Player(name);
-            player.addDie(6);
-            players.add(player);
-        }
+                String name = getValidName(
+                        scanner, "Enter name for player " + (i + 1) + ": ");
 
-        // Keep playing until someone reaches 100 points
-        boolean someoneWon = false;
+                Player player = new Player(name);
+                player.addDie(6);
+                players.add(player);
+            }
 
-        while (!someoneWon) {
+            // Keep playing until someone wins
+            boolean someoneWon = false;
 
-            // Let each player take their turn
-            for (Player player : players) {
+            while (!someoneWon) {
 
-                System.out.println("\n--- " + player.getName() + "'s turn ---");
-                System.out.println("Total score: " + player.getScore());
+                // Let each player take their turn
+                for (Player player : players) {
 
-                // Play one turn and get the points they earned
-                int pointsThisTurn = playOneTurn(player, scanner);
+                    System.out.println("\n--- " + player.getName() + "'s turn ---");
+                    System.out.println("Total score: " + player.getScore());
 
-                // Check if player wants to quit
-                if (pointsThisTurn == -1) {
-                    System.out.println("Game ended.");
-                    return;
-                }
+                    // Play one turn and get the points they earned
+                    int pointsThisTurn = playOneTurn(player, scanner);
 
-                // Add the points to their total score
-                if (pointsThisTurn > 0) {
-                    player.increaseScore(pointsThisTurn);
-                    System.out.println(player.getName() + " earned " 
-                            + pointsThisTurn + " points this turn!");
-                    System.out.println("New total: " + player.getScore());
-                }
+                    // Check if the player wants to quit
+                    if (pointsThisTurn == -1) {
+                        System.out.println("Game ended.");
+                        return;
+                    }
 
-                // Did this player win?
-                if (player.getScore() >= 100) {
-                    System.out.println("\n" + player.getName() 
-                            + " wins with " + player.getScore() + " points!");
-                    someoneWon = true;
-                    break;
+                    // Add the points to their total score
+                    if (pointsThisTurn > 0) {
+
+                        player.increaseScore(pointsThisTurn);
+
+                        System.out.println(player.getName()
+                                + " earned " + pointsThisTurn
+                                + " points this turn!");
+
+                        System.out.println("New total: " + player.getScore());
+                    }
+
+                    // Check if the player has won
+                    if (player.getScore() >= 100) {
+
+                        System.out.println("\n" + player.getName()
+                                + " wins with " + player.getScore() + " points!");
+
+                        someoneWon = true;
+                        break;
+                    }
                 }
             }
+
+        } catch (IllegalStateException e) {
+
+            System.out.println("\nInput ended. Game closed.");
         }
     }
 
@@ -78,47 +91,66 @@ public class PigGame {
         // Keep asking if they want to roll or stop
         while (true) {
 
-            System.out.print("\nRoll the die? (Enter = roll, 's' = stop, 'q' = quit): ");
+            System.out.print(
+                    "\nRoll the die? (Enter = roll, 's' = stop, 'q' = quit): ");
 
             if (!scanner.hasNextLine()) {
-                return 0;
+                return -1;
             }
 
             String input = scanner.nextLine().trim().toLowerCase();
 
-            // Player typed 's' - they want to stop and keep their points
+            // Player wants to stop and keep their points
             if (input.equals("s")) {
-                System.out.println(player.getName() + " stops with " 
-                        + pointsThisTurn + " turn points.");
+
+                System.out.println(player.getName()
+                        + " stops with " + pointsThisTurn + " turn points.");
+
                 return pointsThisTurn;
             }
 
-            // Player typed 'q' - they want to quit the game
+            // Player wants to quit the game
             if (input.equals("q")) {
+
                 System.out.println("\nQuitting game...");
-                return -1; // Signal to quit
+                return -1;
             }
 
-            // Roll the die and see what we got
+            // Check that the input is valid
+            if (!input.isEmpty()) {
+
+                System.out.println(
+                        "Invalid input! Press Enter to roll, s to stop or q to quit.");
+
+                continue;
+            }
+
+            // Roll the die and get the result
             player.rollDice();
+
             int result = player.getDiceTotal();
 
             System.out.println("You rolled: " + result);
 
-            // If they rolled a 1, they lose everything!
+            // If the player rolls a 1, they lose their turn points
             if (result == 1) {
+
                 System.out.println("Oh no! You rolled a 1!");
-                System.out.println("You lose all " + pointsThisTurn + " turn points!");
+
+                System.out.println("You lose all "
+                        + pointsThisTurn + " turn points!");
+
                 return 0;
             }
 
-            // Add the roll to their turn points
+            // Add the roll to the current turn points
             pointsThisTurn = pointsThisTurn + result;
+
             System.out.println("Turn points so far: " + pointsThisTurn);
         }
     }
 
-    // Ask for a number and make sure it's valid
+    // Ask for a number and make sure it is valid
     private static int getValidInt(
             Scanner scanner, String message, int min, int max) {
 
@@ -152,8 +184,9 @@ public class PigGame {
         }
     }
 
-    // Ask for a name and make sure it's not empty
-    private static String getValidName(Scanner scanner, String message) {
+    // Ask for a name and make sure it is not empty
+    private static String getValidName(
+            Scanner scanner, String message) {
 
         while (true) {
 
@@ -169,8 +202,8 @@ public class PigGame {
                 return name;
             }
 
-            System.out.println("Name cannot be empty. Please try again.");
+            System.out.println(
+                    "Name cannot be empty. Please try again.");
         }
     }
 }
-
