@@ -13,24 +13,26 @@ public class DiceGame {
         System.out.println();
         System.out.println("1. Single Player");
         System.out.println("2. Multiplayer");
-        System.out.println("3. Exit");
+        System.out.println("3. Pig Game");
+        System.out.println("4. Exit");
 
         String choice;
 
         // Ask for a valid menu option
         while (true) {
 
-            System.out.print("\nChoose an option (1-3): ");
+            System.out.print("\nChoose an option (1-4): ");
             choice = scanner.nextLine().trim();
 
             if (choice.equals("1") ||
                 choice.equals("2") ||
-                choice.equals("3")) {
+                choice.equals("3") ||
+                choice.equals("4")) {
                 break;
             }
 
             System.out.println(
-                    "Invalid option! Please choose 1, 2 or 3.");
+                    "Invalid option! Please choose 1, 2, 3 or 4.");
         }
 
         switch (choice) {
@@ -44,6 +46,10 @@ public class DiceGame {
                 break;
 
             case "3":
+                PigGame.play(scanner);
+                break;
+
+            case "4":
                 System.out.println("Goodbye!");
                 break;
         }
